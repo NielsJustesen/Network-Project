@@ -99,38 +99,19 @@ namespace NetworkProjectServer
                         {
                             playerToRemove.Add(item);
                         }
-                        playerToRemove.Clear();
-
                     }
+                    foreach (Player pl in playerToRemove)
+                    {
+                        playerList.Remove(pl);
+                    }
+                    playerToRemove.Clear();
+
                     Console.WriteLine(playerList.Count.ToString());
                     Thread.CurrentThread.Abort();
                 }
 
 
-                try
-                {
-                    tal = int.Parse(sData);
-                }
-                catch (Exception e)
-                {
-                    tal = 0;
-                    Console.WriteLine(e.Message);
-                }
-                if (tal > hemmeligtTal)
-                {
-                    sWriter.WriteLine("Dit gæt var for højt");
-                }
-                else
-                {
-                    if (tal < hemmeligtTal)
-                    {
-                        sWriter.WriteLine("Dit gæt var for lavt");
-                    }
-                    else
-                    {
-                        sWriter.WriteLine("Du ramte plet!");
-                    }
-                }
+               
                 try
                 {
                     sWriter.Flush();
