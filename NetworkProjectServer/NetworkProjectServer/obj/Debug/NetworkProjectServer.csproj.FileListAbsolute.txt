@@ -1,1 +1,2 @@
 D:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\bin\Debug\NetworkProjectServer.exe.config
+D:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\bin\Debug\NetworkProjectServer.exe.config
