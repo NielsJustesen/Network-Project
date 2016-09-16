@@ -8,16 +8,16 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 
-namespace TraadetServerKonsol
+namespace NetworkProjectServer
 {
     class Program
     {
-
+        private static List<Player> playerList = new List<Player>();
+        private static List<Player> playerToRemove = new List<Player>();
         private static int _port = 5557;
         private static TcpListener _server;
         private static bool _isrunning;
         private static Object laas = new Object();
-        public static int antKlienter = 0;
         private static Semaphore mySem = new Semaphore(0, 1);
 
         public static int tal;
@@ -61,76 +61,92 @@ namespace TraadetServerKonsol
             String sData = null;
 
             IPEndPoint endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
+            Player p = new Player(endPoint);
+            playerList.Add(p);
+
+
+
             IPEndPoint localendPoint = (IPEndPoint)client.Client.LocalEndPoint;
             Random rnd = new Random();
 
             int hemmeligtTal = rnd.Next(1, 99);
 
-            antKlienter++;
 
             while (client.Connected)
             {
-                sWriter.WriteLine("Det er ikke din tur");
-                lock (laas)
-                {
-                    sWriter.WriteLine("Det er din tur");
+                //sWriter.WriteLine("Det er ikke din tur");
 
-                    try
+                try
+                {
+                    lock (laas)
                     {
+                        //sWriter.WriteLine("Det er din tur");
+
                         sData = sReader.ReadLine();
                     }
-                    catch (Exception e)
+                }
+                catch (Exception e)
+                {
+
+
+                    Console.WriteLine("Client på port " + p.PlayerEP.Port.ToString() + " er gået sin vej. Der er nu kun " + playerList.Count.ToString() + ":(");
+
+                    foreach (Player item in playerList)
                     {
-                        //mySem.WaitOne();
+                        string removePlayer = p.PlayerEP.Port.ToString();
 
-                        antKlienter--;
+                        if (item.PlayerEP.Port.ToString() == removePlayer)
+                        {
+                            playerToRemove.Add(item);
+                        }
+                        playerToRemove.Clear();
 
-                        Console.WriteLine("Client på port " + endPoint.Port.ToString() + " er gået sin vej. Der er nu kun " + antKlienter.ToString() + ":(");
-                        Thread.CurrentThread.Abort();
-                        //mySem.Release();
                     }
+                    Console.WriteLine(playerList.Count.ToString());
+                    Thread.CurrentThread.Abort();
+                }
 
 
-                    try
+                try
+                {
+                    tal = int.Parse(sData);
+                }
+                catch (Exception e)
+                {
+                    tal = 0;
+                    Console.WriteLine(e.Message);
+                }
+                if (tal > hemmeligtTal)
+                {
+                    sWriter.WriteLine("Dit gæt var for højt");
+                }
+                else
+                {
+                    if (tal < hemmeligtTal)
                     {
-                        tal = int.Parse(sData);
-                    }
-                    catch (Exception e)
-                    {
-                        tal = 0;
-                        Console.WriteLine(e.Message);
-                    }
-                    if (tal > hemmeligtTal)
-                    {
-                        sWriter.WriteLine("Dit gæt var for højt");
+                        sWriter.WriteLine("Dit gæt var for lavt");
                     }
                     else
                     {
-                        if (tal < hemmeligtTal)
-                        {
-                            sWriter.WriteLine("Dit gæt var for lavt");
-                        }
-                        else
-                        {
-                            sWriter.WriteLine("Du ramte plet!");
-                        }
+                        sWriter.WriteLine("Du ramte plet!");
                     }
-                    try
-                    {
-                        sWriter.Flush();
-                    }
-                    catch (Exception e)
-                    { }
-
-                    Console.WriteLine("Der er " + antKlienter.ToString() + " spillere.");
-                    Console.WriteLine("Server på " + localendPoint.Address.ToString() + " port: " + localendPoint.Port.ToString());
-                    Console.WriteLine("Client på port " + endPoint.Port.ToString() + "> " + hemmeligtTal.ToString());
-                    // Her kunne man skrive noget tilbage til klienten
-                    // Det gør vi da bare senere - ha!
-                    //sWriter.WriteLine(sData.ToUpper());
-                    //sWriter.Flush();
-
                 }
+                try
+                {
+                    sWriter.Flush();
+                }
+                catch (Exception e)
+                { }
+
+                Console.WriteLine("Der er " + playerList.Count.ToString() + " spillere.");
+                Console.WriteLine("Server på " + localendPoint.Address.ToString() + " port: " + localendPoint.Port.ToString());
+                Console.WriteLine("Client på port " + p.PlayerEP.Port.ToString() + "> " + hemmeligtTal.ToString());
+                // Her kunne man skrive noget tilbage til klienten
+                // Det gør vi da bare senere - ha!
+                //sWriter.WriteLine(sData.ToUpper());
+                //sWriter.Flush();
+
+
             }
         }
     }
