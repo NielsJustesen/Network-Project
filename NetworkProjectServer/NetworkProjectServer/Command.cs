@@ -17,24 +17,28 @@ namespace NetworkProjectServer
         {
             
         }
-        public Enemy MeetEnemy()
+        public string MeetEnemy()
         {
             Random rnd = new Random();
             int nmb = rnd.Next(1, 101);
+            string enemy;
             if (nmb <= 50)
             {
                 Enemy enm = new Goblin();
+                enemy = "Goblin";
             }
             else if (nmb >= 51 && nmb <= 75)
             {
                 Enemy enm = new Orc();
+                enemy = "Orc";
             }
             else
             {
                 Enemy enm = new Troll();
+                enemy = "Troll";
             }
 
-            return enm;
+            return enemy;
         }
     }
 }
