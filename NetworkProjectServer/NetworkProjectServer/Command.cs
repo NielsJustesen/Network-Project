@@ -15,13 +15,23 @@ namespace NetworkProjectServer
         }
         public bool Combat(Player player, Enemy enemy)
         {
-           
-            player.PlayerTakeDamage(player.health, enemy.dmg);
+            bool canPlayerAttack = false;
+            if (!canPlayerAttack)
+            {
+           player.health= player.PlayerTakeDamage( enemy.dmg,player.health);
             Console.WriteLine("player health : "+player.health);
             Console.WriteLine("enemy damage : " + enemy.dmg);
-            enemy.TakeDamage( enemy.health,player.dmg);
+                Console.ReadLine();
+                canPlayerAttack = true;
+            }
+            if (canPlayerAttack)
+            {
+          enemy.health=  enemy.TakeDamage( player.dmg,enemy.health);
             Console.WriteLine("enemy health : " + enemy.health);
             Console.WriteLine("player damage : "+player.dmg);
+                Console.ReadLine();
+                canPlayerAttack = false;
+            }
             if (player.health<=0|| enemy.health<=0)
             {
                 return false;

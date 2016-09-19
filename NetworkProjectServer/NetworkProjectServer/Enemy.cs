@@ -8,16 +8,16 @@ namespace NetworkProjectServer
 {
     public class Enemy
     {
-        public int health;
+        public int health { get; set; }
         public int dmg;
         public Enemy(int health, int dmg)
         {
             this.health = health;
             this.dmg = dmg;
         }
-        public void TakeDamage(int dmg,int health)
+        public int TakeDamage(int dmg,int health)
         {
-            health = health - dmg;
+         return   health = health - dmg;
         }
     }
 }
