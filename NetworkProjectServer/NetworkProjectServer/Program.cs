@@ -12,6 +12,7 @@ namespace NetworkProjectServer
 {
     class Program
     {
+        private static Command cmd = new Command();
         private static List<Player> playerList = new List<Player>();
         private static List<Enemy> enemies = new List<Enemy>();
         private static List<Player> objsToRemove = new List<Player>();
@@ -20,6 +21,18 @@ namespace NetworkProjectServer
         private static bool _isrunning;
         private static Object laas = new Object();
 
+        internal static List<Enemy> Enemies
+        {
+            get
+            {
+                return enemies;
+            }
+
+            set
+            {
+                enemies = value;
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -76,11 +89,11 @@ namespace NetworkProjectServer
 
                 try
                 {
-                
+
                     lock (laas)
                     {
                         //sWriter.WriteLine("Det er din tur");
-                        
+
                         sData = sReader.ReadLine();
                         string playerCmd = sData;
                         switch (playerCmd.ToLower())
@@ -92,9 +105,9 @@ namespace NetworkProjectServer
                                 sWriter.WriteLine("You fled from combat");
                                 break;
                             case "move":
-                                sWriter.WriteLine("You seek an enemy");
-                                //Goblin gob = new Goblin();
-                                //enemies.Add(gob);
+                                //sWriter.WriteLine("You seek an enemy");
+                                sWriter.WriteLine("you meet a " + cmd.MeetEnemy().ToString());
+
                                 break;
                             case "drink":
                                 sWriter.WriteLine("You drank a potion");
@@ -103,7 +116,7 @@ namespace NetworkProjectServer
                                 sWriter.WriteLine("Invalid command");
                                 break;
                         }
-                       
+
                     }
                 }
                 catch (Exception e)
@@ -125,13 +138,13 @@ namespace NetworkProjectServer
                         playerList.Remove(pl);
                     }
                     objsToRemove.Clear();
-                    Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + " left the game,\nthere are: " + playerList.Count.ToString()+ " players");
-
+                    Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + " left the game,\nthere are: " + playerList.Count.ToString() + " players");
+                    Console.WriteLine(e);
                     Thread.CurrentThread.Abort();
                 }
 
 
-               
+
                 try
                 {
                     sWriter.Flush();
