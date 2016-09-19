@@ -8,10 +8,14 @@ namespace NetworkProjectServer
 {
     class Goblin : Enemy
     {
-        int health;
+        private static int health;
         public Goblin()
         {
             health = 15;
+        }
+        public static void GoblinTakeDamage(int dmg)
+        {
+            health = health - dmg;
         }
     }
 }

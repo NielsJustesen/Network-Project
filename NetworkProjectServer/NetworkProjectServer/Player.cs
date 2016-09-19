@@ -33,11 +33,7 @@ namespace NetworkProjectServer
             health = 50;
             dmg = 15;
         }
-        public static void Attack()
-        {
-
-        }
-        public static void TakeDamage(int dmg)
+        public static void PlayerTakeDamage(int dmg)
         {
             health = health - dmg;
         }

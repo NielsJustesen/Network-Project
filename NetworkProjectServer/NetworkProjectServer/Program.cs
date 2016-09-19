@@ -73,7 +73,7 @@ namespace NetworkProjectServer
 
             while (client.Connected)
             {
-                //sWriter.WriteLine("Det er ikke din tur");
+                sWriter.WriteLine("Choose your action: \n Move, to ecounter an enemy. \n Attack, to attack the enemy. \n Flee, to run away from the enemy. \n Drink, to get health, when not in combat.");
 
                 try
                 {
@@ -82,6 +82,27 @@ namespace NetworkProjectServer
                         //sWriter.WriteLine("Det er din tur");
 
                         sData = sReader.ReadLine();
+                        switch (sData.ToString().ToLower())
+                        {
+                            case "attack":
+                                sWriter.WriteLine("You attacked");
+                                break;
+                            case "flee":
+                                sWriter.WriteLine("You fled from combat");
+                                break;
+                            case "move":
+                                sWriter.WriteLine("You seek an enemy");
+                                //Goblin gob = new Goblin();
+                                //enemies.Add(gob);
+                                break;
+                            case "drink":
+                                sWriter.WriteLine("You drank a potion");
+                                break;
+                            default:
+                                sWriter.WriteLine("Invalid command");
+                                break;
+                        }
+                       
                     }
                 }
                 catch (Exception e)
