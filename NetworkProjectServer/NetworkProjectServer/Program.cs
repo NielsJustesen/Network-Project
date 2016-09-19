@@ -73,16 +73,17 @@ namespace NetworkProjectServer
 
             while (client.Connected)
             {
-                sWriter.WriteLine("Choose your action: \n Move, to ecounter an enemy. \n Attack, to attack the enemy. \n Flee, to run away from the enemy. \n Drink, to get health, when not in combat.");
 
                 try
                 {
+                
                     lock (laas)
                     {
                         //sWriter.WriteLine("Det er din tur");
-
+                        
                         sData = sReader.ReadLine();
-                        switch (sData.ToString().ToLower())
+                        string playerCmd = sData;
+                        switch (playerCmd.ToLower())
                         {
                             case "attack":
                                 sWriter.WriteLine("You attacked");
@@ -109,7 +110,6 @@ namespace NetworkProjectServer
                 {
 
 
-                    Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + " left the game,\n there are " + playerList.Count.ToString() + ":(");
 
                     foreach (Player item in playerList)
                     {
@@ -125,8 +125,8 @@ namespace NetworkProjectServer
                         playerList.Remove(pl);
                     }
                     objsToRemove.Clear();
+                    Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + " left the game,\nthere are: " + playerList.Count.ToString()+ " players");
 
-                    Console.WriteLine(playerList.Count.ToString());
                     Thread.CurrentThread.Abort();
                 }
 
