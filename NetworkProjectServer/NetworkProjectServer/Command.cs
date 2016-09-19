@@ -16,7 +16,7 @@ namespace NetworkProjectServer
         public bool Combat(Player player, Enemy enemy)
         {
             bool canPlayerAttack = false;
-            if (!canPlayerAttack)
+            if (!canPlayerAttack&& enemy.health>0)
             {
            player.health= player.PlayerTakeDamage( enemy.dmg,player.health);
             Console.WriteLine("player health : "+player.health);
@@ -24,7 +24,7 @@ namespace NetworkProjectServer
                 Console.ReadLine();
                 canPlayerAttack = true;
             }
-            if (canPlayerAttack)
+            if (canPlayerAttack&& player.health>0)
             {
           enemy.health=  enemy.TakeDamage( player.dmg,enemy.health);
             Console.WriteLine("enemy health : " + enemy.health);
@@ -32,8 +32,9 @@ namespace NetworkProjectServer
                 Console.ReadLine();
                 canPlayerAttack = false;
             }
-            if (player.health<=0|| enemy.health<=0)
+            else if (player.health<=0|| enemy.health<=0)
             {
+              
                 return false;
             }
             return true;

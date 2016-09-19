@@ -105,6 +105,7 @@ namespace NetworkProjectServer
                                     cmd.Combat(playerList[0], enemies[0]);
 
                                 }
+                                Program.Enemies.Clear();
                                 break;
                             case "flee":
                                 sWriter.WriteLine("You fled from combat");
