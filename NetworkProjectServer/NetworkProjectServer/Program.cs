@@ -13,19 +13,18 @@ namespace NetworkProjectServer
     class Program
     {
         private static List<Player> playerList = new List<Player>();
-        private static List<Player> playerToRemove = new List<Player>();
+        private static List<Enemy> enemies = new List<Enemy>();
+        private static List<Player> objsToRemove = new List<Player>();
         private static int _port = 5557;
         private static TcpListener _server;
         private static bool _isrunning;
         private static Object laas = new Object();
-        private static Semaphore mySem = new Semaphore(0, 1);
 
-        public static int tal;
 
         static void Main(string[] args)
         {
             Console.Title = "Server";
-            Console.WriteLine("Venter på forbindelser ...");
+            Console.WriteLine("Waiting for players ...");
             Tcpserver(_port);
 
         }
@@ -44,7 +43,7 @@ namespace NetworkProjectServer
             {
                 TcpClient newClient = _server.AcceptTcpClient();
                 IPEndPoint endPoint = (IPEndPoint)newClient.Client.RemoteEndPoint;
-                Console.WriteLine("Ny rotte i fælden på port " + endPoint.ToString() + " :)");
+                Console.WriteLine("New player joind on IP: " + endPoint.ToString());
 
                 Thread t = new Thread(new ParameterizedThreadStart(HandleClient));
                 t.Start(newClient);
@@ -89,7 +88,7 @@ namespace NetworkProjectServer
                 {
 
 
-                    Console.WriteLine("Client på port " + p.PlayerEP.Port.ToString() + " er gået sin vej. Der er nu kun " + playerList.Count.ToString() + ":(");
+                    Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + " left the game,\n there are " + playerList.Count.ToString() + ":(");
 
                     foreach (Player item in playerList)
                     {
@@ -97,14 +96,14 @@ namespace NetworkProjectServer
 
                         if (item.PlayerEP.Port.ToString() == removePlayer)
                         {
-                            playerToRemove.Add(item);
+                            objsToRemove.Add(item);
                         }
                     }
-                    foreach (Player pl in playerToRemove)
+                    foreach (Player pl in objsToRemove)
                     {
                         playerList.Remove(pl);
                     }
-                    playerToRemove.Clear();
+                    objsToRemove.Clear();
 
                     Console.WriteLine(playerList.Count.ToString());
                     Thread.CurrentThread.Abort();
@@ -119,9 +118,9 @@ namespace NetworkProjectServer
                 catch (Exception e)
                 { }
 
-                Console.WriteLine("Der er " + playerList.Count.ToString() + " spillere.");
-                Console.WriteLine("Server på " + localendPoint.Address.ToString() + " port: " + localendPoint.Port.ToString());
-                Console.WriteLine("Client på port " + p.PlayerEP.Port.ToString() + "> " + hemmeligtTal.ToString());
+                Console.WriteLine("The server contains " + playerList.Count.ToString() + " players.");
+                Console.WriteLine("Server on " + localendPoint.Address.ToString() + " port: " + localendPoint.Port.ToString());
+                Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + "> " + hemmeligtTal.ToString());
                 // Her kunne man skrive noget tilbage til klienten
                 // Det gør vi da bare senere - ha!
                 //sWriter.WriteLine(sData.ToUpper());

@@ -10,8 +10,8 @@ namespace NetworkProjectServer
 {
     public class Player
     {
-        private int health = 50;
-        private int dmg = 10;
+        private static int health;
+        private int dmg;
         IPEndPoint playerEP;
 
         public IPEndPoint PlayerEP
@@ -30,14 +30,16 @@ namespace NetworkProjectServer
         public Player(IPEndPoint playerEP)
         {
             this.PlayerEP = playerEP;
+            health = 50;
+            dmg = 15;
         }
         public static void Attack()
         {
 
         }
-        public static void TakeDamage()
+        public static void TakeDamage(int dmg)
         {
-
+            health = health - dmg;
         }
     }
 }
