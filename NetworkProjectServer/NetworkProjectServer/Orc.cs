@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace NetworkProjectServer
 {
-    class Orc : Enemy
+    public class Orc : Enemy
     {
-        int health;
-        public Orc()
+        private int health;
+        private int dmg;
+        public Orc(int health, int dmg) : base(health, dmg)
         {
-            health = 20;
+            this.health = health;
+            this.dmg = dmg;
         }
     }
 }

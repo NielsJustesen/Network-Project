@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace NetworkProjectServer
 {
-    class Goblin : Enemy
+    public class Goblin : Enemy
     {
-        private static int health;
-        public Goblin()
+        private int health;
+        private int dmg;
+        public Goblin(int health, int dmg) : base(health, dmg)
         {
-            health = 15;
-        }
-        public static void GoblinTakeDamage(int dmg)
-        {
-            health = health - dmg;
+            this.health = health;
+            this.dmg = dmg;
         }
     }
 }

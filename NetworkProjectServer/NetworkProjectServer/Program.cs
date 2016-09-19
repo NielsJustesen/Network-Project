@@ -100,6 +100,11 @@ namespace NetworkProjectServer
                         {
                             case "attack":
                                 sWriter.WriteLine("You attacked");
+                                while (cmd.Combat(playerList[0], enemies[0]))
+                                {
+                                    cmd.Combat(playerList[0], enemies[0]);
+
+                                }
                                 break;
                             case "flee":
                                 sWriter.WriteLine("You fled from combat");
