@@ -105,9 +105,7 @@ namespace NetworkProjectServer
                                 sWriter.WriteLine("You fled from combat");
                                 break;
                             case "move":
-                                //sWriter.WriteLine("You seek an enemy");
-                                sWriter.WriteLine("you meet a " + cmd.MeetEnemy().ToString());
-
+                                sWriter.WriteLine("you meet " + cmd.MeetEnemy());
                                 break;
                             case "drink":
                                 sWriter.WriteLine("You drank a potion");

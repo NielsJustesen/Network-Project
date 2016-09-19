@@ -25,17 +25,17 @@ namespace NetworkProjectServer
             if (nmb <= 50)
             {
                 Enemy enm = new Goblin();
-                enemy = "Goblin";
+                enemy = "a goblin";
             }
             else if (nmb >= 51 && nmb <= 75)
             {
                 Enemy enm = new Orc();
-                enemy = "Orc";
+                enemy = "an orc";
             }
             else
             {
                 Enemy enm = new Troll();
-                enemy = "Troll";
+                enemy = "a troll";
             }
 
             return enemy;
