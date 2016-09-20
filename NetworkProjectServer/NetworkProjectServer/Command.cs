@@ -21,7 +21,6 @@ namespace NetworkProjectServer
                 player.health = player.PlayerTakeDamage(enemy.dmg, player.health);
                 Console.WriteLine("player health : " + player.health);
                 Console.WriteLine("enemy damage : " + enemy.dmg);
-                Console.ReadLine();
                 canPlayerAttack = true;
             }
             if (canPlayerAttack && player.health > 0)
@@ -29,7 +28,6 @@ namespace NetworkProjectServer
                 enemy.health = enemy.TakeDamage(player.dmg, enemy.health);
                 Console.WriteLine("enemy health : " + enemy.health);
                 Console.WriteLine("player damage : " + player.dmg);
-                Console.ReadLine();
                 canPlayerAttack = false;
             }
             else if (player.health <= 0 || enemy.health <= 0)
@@ -65,6 +63,18 @@ namespace NetworkProjectServer
             }
 
             return enemy;
+        }
+        public int DrinkPotion(Player player)
+        {
+            Console.WriteLine("A player tries to drink a potion");
+            int health = player.health;
+            int potions = player.potions;
+            if (potions > 0)
+            {
+                health += 10;
+                Console.WriteLine("A player drank a potion and gained 10 health");
+            }
+            return health;
         }
     }
 }

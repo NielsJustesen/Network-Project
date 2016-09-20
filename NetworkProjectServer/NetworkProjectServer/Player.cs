@@ -10,6 +10,7 @@ namespace NetworkProjectServer
 {
     public class Player
     {
+        public int potions { get; set; }
         public  int health { get; set; }
         public int dmg;
         IPEndPoint playerEP;
@@ -31,6 +32,7 @@ namespace NetworkProjectServer
         {
             this.PlayerEP = playerEP;
             health = 50;
+            potions = 5;
            this.dmg = 15;
         }
         public int PlayerTakeDamage(int enemydmg, int health)

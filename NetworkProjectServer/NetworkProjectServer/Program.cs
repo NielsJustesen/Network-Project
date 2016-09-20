@@ -14,6 +14,7 @@ namespace NetworkProjectServer
     {
         private static Command cmd = new Command();
         private static List<Player> playerList = new List<Player>();
+        private static List<Player> playerReady = new List<Player>();
         private static List<Enemy> enemies = new List<Enemy>();
         private static List<Player> objsToRemove = new List<Player>();
         private static int _port = 5557;
@@ -31,6 +32,19 @@ namespace NetworkProjectServer
             set
             {
                 enemies = value;
+            }
+        }
+
+        public static List<Player> PlayerReady
+        {
+            get
+            {
+                return playerReady;
+            }
+
+            set
+            {
+                playerReady = value;
             }
         }
 
@@ -93,6 +107,7 @@ namespace NetworkProjectServer
                     lock (laas)
                     {
                         //sWriter.WriteLine("Det er din tur");
+                        playerReady.Add(playerList[0]);
 
                         sData = sReader.ReadLine();
                         string playerCmd = sData;
@@ -100,10 +115,23 @@ namespace NetworkProjectServer
                         {
                             case "attack":
                                 sWriter.WriteLine("You attacked");
-                                while (cmd.Combat(playerList[0], enemies[0]))
+                                while (cmd.Combat(playerReady[0], enemies[0]))
                                 {
-                                    cmd.Combat(playerList[0], enemies[0]);
-
+                                    cmd.Combat(playerReady[0], enemies[0]);
+                                    sWriter.WriteLine(playerReady[0].health.ToString());
+                                    sWriter.WriteLine(enemies[0].health.ToString());
+                                    if (enemies[0].health < 0)
+                                    {
+                                        sWriter.WriteLine("You killed the enemy");
+                                    }
+                                    else if (playerReady[0].health > 0)
+                                    {
+                                        sWriter.WriteLine("You died");
+                                    }
+                                    else
+                                    {
+                                        sWriter.WriteLine("You fled from combat");
+                                    }
                                 }
                                 Program.Enemies.Clear();
                                 break;
@@ -115,12 +143,13 @@ namespace NetworkProjectServer
                                 break;
                             case "drink":
                                 sWriter.WriteLine("You drank a potion");
+                                cmd.DrinkPotion(playerReady[0]);
                                 break;
                             default:
                                 sWriter.WriteLine("Invalid command");
                                 break;
                         }
-
+                        playerReady.Clear();
                     }
                 }
                 catch (Exception e)
