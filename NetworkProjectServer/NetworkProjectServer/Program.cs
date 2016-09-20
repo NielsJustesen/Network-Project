@@ -13,7 +13,7 @@ namespace NetworkProjectServer
     class Program
     {
         private static Command cmd = new Command();
-        private static List<Player> playerList = new List<Player>();
+        private static Queue<Player> playerQueue = new Queue<Player>();
         private static List<Player> playerReady = new List<Player>();
         private static List<Enemy> enemies = new List<Enemy>();
         private static List<Player> objsToRemove = new List<Player>();
@@ -88,7 +88,7 @@ namespace NetworkProjectServer
 
             IPEndPoint endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
             Player p = new Player(endPoint);
-            playerList.Add(p);
+            playerQueue.Enqueue(p);
 
 
 
@@ -107,7 +107,8 @@ namespace NetworkProjectServer
                     lock (laas)
                     {
                         //sWriter.WriteLine("Det er din tur");
-                        playerReady.Add(playerList[0]);
+                        p = playerQueue.Dequeue();
+                        playerReady.Add(p);
 
                         sData = sReader.ReadLine();
                         string playerCmd = sData;
@@ -115,28 +116,20 @@ namespace NetworkProjectServer
                         {
                             case "attack":
                                 sWriter.WriteLine("You attacked");
-                                //while (cmd.Combat(playerReady[0], enemies[0]))
-                                //{
-                                    cmd.Combat(playerReady[0], enemies[0]);
-                                    sWriter.WriteLine(playerReady[0].health.ToString());
-                                    sWriter.WriteLine(enemies[0].health.ToString());
-                                    if (enemies[0].health < 0)
-                                    {
-                                        sWriter.WriteLine("You killed the enemy");
-                                    }
-                                    else if (playerReady[0].health > 0)
-                                    {
-                                        sWriter.WriteLine("You died");
-                                    }
-                                    else
-                                    {
-                                        sWriter.WriteLine("You fled from combat");
-                                    }
-                              //  }
-                                Program.Enemies.Clear();
-                                break;
-                            case "flee":
-                                sWriter.WriteLine("You fled from combat");
+                                cmd.Combat(playerReady[0], enemies[0]);
+                                sWriter.WriteLine("Your health " + playerReady[0].health.ToString());
+                                sWriter.WriteLine("Enemy health " + enemies[0].health.ToString());
+                                if (enemies[0].health < 0)
+                                {
+                                    sWriter.WriteLine("You killed the enemy");
+                                    Program.Enemies.Clear();
+                                }
+                                else if (playerReady[0].health < 0)
+                                {
+                                    sWriter.WriteLine("You died");
+                                }
+
+                                sWriter.WriteLine("There is no enemy to attack, use Move to find an enemy");
                                 break;
                             case "move":
                                 sWriter.WriteLine("you meet " + cmd.MeetEnemy());
@@ -149,15 +142,16 @@ namespace NetworkProjectServer
                                 sWriter.WriteLine("Invalid command");
                                 break;
                         }
-                        playerReady.Clear();
                     }
+                    playerQueue.Enqueue(p);
+                    PlayerReady.Clear();
                 }
                 catch (Exception e)
                 {
 
 
 
-                    foreach (Player item in playerList)
+                    foreach (Player item in playerQueue)
                     {
                         string removePlayer = p.PlayerEP.Port.ToString();
 
@@ -168,11 +162,12 @@ namespace NetworkProjectServer
                     }
                     foreach (Player pl in objsToRemove)
                     {
-                        playerList.Remove(pl);
+                        playerQueue.Dequeue();
                     }
                     objsToRemove.Clear();
-                    Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + " left the game,\nthere are: " + playerList.Count.ToString() + " players");
+                    Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + " left the game,\nthere are: " + playerQueue.Count.ToString() + " players");
                     Console.WriteLine(e);
+                    sWriter.WriteLine("Something ruined the server");
                     Thread.CurrentThread.Abort();
                 }
 
@@ -183,11 +178,12 @@ namespace NetworkProjectServer
                     sWriter.Flush();
                 }
                 catch (Exception e)
-                { }
+                {
 
-                Console.WriteLine("The server contains " + playerList.Count.ToString() + " players.");
-                Console.WriteLine("Server on " + localendPoint.Address.ToString() + " port: " + localendPoint.Port.ToString());
-                Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + "> " + hemmeligtTal.ToString());
+                }
+
+                Console.WriteLine("The server contains " + playerQueue.Count.ToString() + " players.");
+                Console.WriteLine("Server on " + localendPoint.Address.ToString() + " port: " + localendPoint.Port.ToString() + " Left");
                 // Her kunne man skrive noget tilbage til klienten
                 // Det gør vi da bare senere - ha!
                 //sWriter.WriteLine(sData.ToUpper());
