@@ -108,7 +108,10 @@ namespace NetworkProjectServer
                     {
                         //sWriter.WriteLine("Det er din tur");
                         p = playerQueue.Dequeue();
+                        Console.WriteLine("Start of game");
+                        Console.WriteLine("There are " + playerQueue.Count.ToString() + " in the queue");
                         playerReady.Add(p);
+                        Console.WriteLine("There are: " + playerReady.Count.ToString() + " players in the game");
 
                         sData = sReader.ReadLine();
                         string playerCmd = sData;
@@ -117,19 +120,21 @@ namespace NetworkProjectServer
                             case "attack":
                                 if (enemies.Count == 1)
                                 {
-                                    sWriter.WriteLine("You attacked");
+                                    sWriter.WriteLine("You attacked " + enemies[0].name);
                                     cmd.Combat(playerReady[0], enemies[0]);
                                     sWriter.WriteLine("Your health " + playerReady[0].health.ToString());
                                     sWriter.WriteLine("Enemy health " + enemies[0].health.ToString());
                                     if (enemies[0].health <= 0 && enemies[0] != null)
                                     {
-                                        sWriter.WriteLine("You killed the enemy");
+                                        sWriter.WriteLine("The " + enemies[0].name+ " died");
                                         enemies.Clear();
                                     }
                                 }
-                                else if (playerReady[0].health < 0)
+                                else if (playerReady[0].health <= 0)
                                 {
-                                    sWriter.WriteLine("You died");
+                                    sWriter.WriteLine("You died, reconnect to start over.");
+                                    sWriter.WriteLine("Your highscore will be saved.");
+                                    KickDeadPlayer(p);
                                 }
                                 else if (enemies.Count == 0)
                                 {
@@ -137,20 +142,20 @@ namespace NetworkProjectServer
                                 }
                                 break;
                             case "move":
-                                //if (enemies[0] == null)
-                                //{
-                                sWriter.WriteLine("you meet " + cmd.MeetEnemy());
-                                //}
-                                //else
-                                //{
-                                //sWriter.WriteLine("You are already in combat");
-                                //}
+                                if (enemies.Count == 0)
+                                {
+                                    sWriter.WriteLine("you meet " + cmd.MeetEnemy());
+                                }
+                                else
+                                {
+                                    sWriter.WriteLine("You are already in combat");
+                                }
                                 break;
                             case "drink":
                                 sWriter.WriteLine("You drank a potion");
-                                playerReady[0].health += cmd.DrinkPotion(playerReady[0]);
-                                sWriter.WriteLine("You now have :" + playerReady[0].health.ToString() + " health");
-                                sWriter.WriteLine("You have " + playerReady[0].potions.ToString() + "left");
+                                cmd.DrinkPotion(playerReady[0]);
+                                sWriter.WriteLine("You now have: " + playerReady[0].health.ToString() + " health");
+                                sWriter.WriteLine("You have " + playerReady[0].potions.ToString() + " potions left");
                                 break;
                             default:
                                 sWriter.WriteLine("Invalid command");
@@ -158,27 +163,18 @@ namespace NetworkProjectServer
                         }
                     }
                     playerQueue.Enqueue(p);
+                    Console.WriteLine("There are " + playerQueue.Count.ToString() + " in the queue");
                     PlayerReady.Clear();
+                    Console.WriteLine("There are: " + playerReady.Count.ToString() + " players in the game");
+                    Console.WriteLine("End of game");
+
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
 
-
-                    foreach (Player item in playerQueue)
-                    {
-                        string removePlayer = p.PlayerEP.Port.ToString();
-
-                        if (item.PlayerEP.Port.ToString() == removePlayer)
-                        {
-                            objsToRemove.Add(item);
-                        }
-                    }
-                    foreach (Player pl in objsToRemove)
-                    {
-                        playerQueue.Dequeue();
-                    }
-                    objsToRemove.Clear();
+                    KickDeadPlayer(p);
+                    
                     Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + " left the game,\nthere are: " + playerQueue.Count.ToString() + " players");
                     Console.WriteLine(e);
                     sWriter.WriteLine("Something ruined the server");
@@ -205,6 +201,23 @@ namespace NetworkProjectServer
 
 
             }
+        }
+        public static void KickDeadPlayer(Player p)
+        {
+            foreach (Player item in playerQueue)
+            {
+                string removePlayer = p.PlayerEP.Port.ToString();
+
+                if (item.PlayerEP.Port.ToString() == removePlayer)
+                {
+                    objsToRemove.Add(item);
+                }
+            }
+            foreach (Player pl in objsToRemove)
+            {
+                playerQueue.Dequeue();
+            }
+            objsToRemove.Clear();
         }
     }
 }

@@ -44,38 +44,39 @@ namespace NetworkProjectServer
             string enemy;
             if (nmb <= 50)
             {
-                Enemy enm = new Goblin(15, 5);
+                Enemy enm = new Goblin(15, 5, "a goblin");
                 enemy = "a goblin";
+                Console.WriteLine("The player met a goblin");
                 Program.Enemies.Add(enm);
 
             }
             else if (nmb >= 51 && nmb <= 75)
             {
-                Enemy enm = new Orc(20, 10);
+                Enemy enm = new Orc(20, 10, "an orc");
                 enemy = "an orc";
+                Console.WriteLine("The player met an orc");
                 Program.Enemies.Add(enm);
             }
             else
             {
-                Enemy enm = new Troll(25, 15);
+                Enemy enm = new Troll(25, 15, "a troll");
                 enemy = "a troll";
+                Console.WriteLine("The player met a troll");
                 Program.Enemies.Add(enm);
             }
-
+            string name = enemy;
             return enemy;
         }
-        public int DrinkPotion(Player player)
+        public void DrinkPotion(Player player)
         {
             Console.WriteLine("A player tries to drink a potion");
-            int health = player.health;
             int potions = player.potions;
             if (potions > 0)
             {
                 player.potions--;
-                health += 10;
+                player.health += 10;
                 Console.WriteLine("A player drank a potion and gained 10 health");
             }
-            return health;
         }
     }
 }

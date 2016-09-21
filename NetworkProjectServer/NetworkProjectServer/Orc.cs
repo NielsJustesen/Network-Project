@@ -10,10 +10,13 @@ namespace NetworkProjectServer
     {
         private int health;
         private int dmg;
-        public Orc(int health, int dmg) : base(health, dmg)
+        private string name;
+
+        public Orc(int health, int dmg, string name) : base(health, dmg, name)
         {
             this.health = health;
             this.dmg = dmg;
+            this.name = name;
         }
     }
 }

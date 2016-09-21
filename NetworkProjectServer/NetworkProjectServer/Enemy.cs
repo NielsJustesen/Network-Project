@@ -10,10 +10,12 @@ namespace NetworkProjectServer
     {
         public int health { get; set; }
         public int dmg;
-        public Enemy(int health, int dmg)
+        public string name { get; set; }
+        public Enemy(int health, int dmg, string name)
         {
             this.health = health;
             this.dmg = dmg;
+            this.name = name;
         }
         public int TakeDamage(int dmg,int health)
         {

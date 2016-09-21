@@ -10,10 +10,12 @@ namespace NetworkProjectServer
     {
         private int health;
         private int dmg;
-        public Goblin(int health, int dmg) : base(health, dmg)
+        private string name;
+        public Goblin(int health, int dmg, string name) : base(health, dmg, name)
         {
             this.health = health;
             this.dmg = dmg;
+            this.name = name;
         }
     }
 }
