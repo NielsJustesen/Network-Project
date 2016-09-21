@@ -71,6 +71,7 @@ namespace NetworkProjectServer
             int potions = player.potions;
             if (potions > 0)
             {
+                player.potions--;
                 health += 10;
                 Console.WriteLine("A player drank a potion and gained 10 health");
             }

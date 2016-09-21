@@ -119,10 +119,7 @@ namespace NetworkProjectServer
                                 {
                                     sWriter.WriteLine("You attacked");
                                     cmd.Combat(playerReady[0], enemies[0]);
-                                }
-                                sWriter.WriteLine("Your health " + playerReady[0].health.ToString());
-                                if (enemies.Count == 1)
-                                {
+                                    sWriter.WriteLine("Your health " + playerReady[0].health.ToString());
                                     sWriter.WriteLine("Enemy health " + enemies[0].health.ToString());
                                     if (enemies[0].health <= 0 && enemies[0] != null)
                                     {
@@ -151,8 +148,9 @@ namespace NetworkProjectServer
                                 break;
                             case "drink":
                                 sWriter.WriteLine("You drank a potion");
-                                cmd.DrinkPotion(playerReady[0]);
-                                sWriter.WriteLine("You now have :" + playerReady[0].health.ToString() + "health");
+                                playerReady[0].health += cmd.DrinkPotion(playerReady[0]);
+                                sWriter.WriteLine("You now have :" + playerReady[0].health.ToString() + " health");
+                                sWriter.WriteLine("You have " + playerReady[0].potions.ToString() + "left");
                                 break;
                             default:
                                 sWriter.WriteLine("Invalid command");
