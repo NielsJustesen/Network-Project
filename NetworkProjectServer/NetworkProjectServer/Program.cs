@@ -119,7 +119,7 @@ namespace NetworkProjectServer
                                 cmd.Combat(playerReady[0], enemies[0]);
                                 sWriter.WriteLine("Your health " + playerReady[0].health.ToString());
                                 sWriter.WriteLine("Enemy health " + enemies[0].health.ToString());
-                                if (enemies[0].health < 0)
+                                if (enemies[0].health < 0 && enemies[0] != null)
                                 {
                                     sWriter.WriteLine("You killed the enemy");
                                     Program.Enemies.Clear();
@@ -128,8 +128,10 @@ namespace NetworkProjectServer
                                 {
                                     sWriter.WriteLine("You died");
                                 }
-
-                                sWriter.WriteLine("There is no enemy to attack, use Move to find an enemy");
+                                else if (enemies[0] == null)
+                                {
+                                    sWriter.WriteLine("There is no enemy to attack, use Move to find an enemy");
+                                }
                                 break;
                             case "move":
                                 sWriter.WriteLine("you meet " + cmd.MeetEnemy());
@@ -183,7 +185,7 @@ namespace NetworkProjectServer
                 }
 
                 Console.WriteLine("The server contains " + playerQueue.Count.ToString() + " players.");
-                Console.WriteLine("Server on " + localendPoint.Address.ToString() + " port: " + localendPoint.Port.ToString() + " Left");
+                Console.WriteLine("Server on " + localendPoint.Address.ToString() + " port: " + localendPoint.Port.ToString());
                 // Her kunne man skrive noget tilbage til klienten
                 // Det gør vi da bare senere - ha!
                 //sWriter.WriteLine(sData.ToUpper());

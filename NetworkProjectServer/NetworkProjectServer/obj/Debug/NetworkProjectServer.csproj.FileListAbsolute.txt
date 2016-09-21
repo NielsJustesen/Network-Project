@@ -7,3 +7,6 @@ D:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\Netwo
 D:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\obj\Debug\NetworkProjectServer.pdb
 D:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\bin\Debug\RestSharp.dll
 D:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\bin\Debug\RestSharp.xml
+E:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\bin\Debug\NetworkProjectServer.exe.config
+E:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\obj\Debug\NetworkProjectServer.exe
+E:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\obj\Debug\NetworkProjectServer.pdb
