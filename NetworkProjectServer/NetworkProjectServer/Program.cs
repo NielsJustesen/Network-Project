@@ -134,11 +134,19 @@ namespace NetworkProjectServer
                                 }
                                 break;
                             case "move":
-                                sWriter.WriteLine("you meet " + cmd.MeetEnemy());
+                                if (enemies[0] == null)
+                                {
+                                    sWriter.WriteLine("you meet " + cmd.MeetEnemy());
+                                }
+                                else
+                                {
+                                    sWriter.WriteLine("You are already in combat");
+                                }
                                 break;
                             case "drink":
                                 sWriter.WriteLine("You drank a potion");
                                 cmd.DrinkPotion(playerReady[0]);
+                                sWriter.WriteLine("You now have :" + playerReady[0].health.ToString() + "health");
                                 break;
                             default:
                                 sWriter.WriteLine("Invalid command");
