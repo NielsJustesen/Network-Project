@@ -115,20 +115,26 @@ namespace NetworkProjectServer
                         switch (playerCmd.ToLower())
                         {
                             case "attack":
-                                sWriter.WriteLine("You attacked");
-                                cmd.Combat(playerReady[0], enemies[0]);
-                                sWriter.WriteLine("Your health " + playerReady[0].health.ToString());
-                                sWriter.WriteLine("Enemy health " + enemies[0].health.ToString());
-                                if (enemies[0].health < 0 && enemies[0] != null)
+                                if (enemies.Count == 1)
                                 {
-                                    sWriter.WriteLine("You killed the enemy");
-                                    Program.Enemies.Clear();
+                                    sWriter.WriteLine("You attacked");
+                                    cmd.Combat(playerReady[0], enemies[0]);
+                                }
+                                sWriter.WriteLine("Your health " + playerReady[0].health.ToString());
+                                if (enemies.Count == 1)
+                                {
+                                    sWriter.WriteLine("Enemy health " + enemies[0].health.ToString());
+                                    if (enemies[0].health <= 0 && enemies[0] != null)
+                                    {
+                                        sWriter.WriteLine("You killed the enemy");
+                                        enemies.Clear();
+                                    }
                                 }
                                 else if (playerReady[0].health < 0)
                                 {
                                     sWriter.WriteLine("You died");
                                 }
-                                else if (enemies[0] == null)
+                                else if (enemies.Count == 0)
                                 {
                                     sWriter.WriteLine("There is no enemy to attack, use Move to find an enemy");
                                 }
@@ -136,11 +142,11 @@ namespace NetworkProjectServer
                             case "move":
                                 //if (enemies[0] == null)
                                 //{
-                                    sWriter.WriteLine("you meet " + cmd.MeetEnemy());
+                                sWriter.WriteLine("you meet " + cmd.MeetEnemy());
                                 //}
                                 //else
                                 //{
-                                    //sWriter.WriteLine("You are already in combat");
+                                //sWriter.WriteLine("You are already in combat");
                                 //}
                                 break;
                             case "drink":
