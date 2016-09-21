@@ -133,6 +133,11 @@ namespace NetworkProjectServer
                                 else if (playerReady[0].health <= 0)
                                 {
                                     sWriter.WriteLine("You died, reconnect to start over.");
+
+                                    /////////////////////
+                                    ////husk at tænke over at looope clineter så de ikke behøver at genstarte   exe 
+                                    /// LoopClients();
+                                    //////////////////////
                                     sWriter.WriteLine("Your highscore will be saved.");
                                     KickDeadPlayer(p);
                                 }
