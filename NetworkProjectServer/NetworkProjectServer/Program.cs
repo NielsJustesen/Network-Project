@@ -134,14 +134,14 @@ namespace NetworkProjectServer
                                 }
                                 break;
                             case "move":
-                                if (enemies[0] == null)
-                                {
+                                //if (enemies[0] == null)
+                                //{
                                     sWriter.WriteLine("you meet " + cmd.MeetEnemy());
-                                }
-                                else
-                                {
-                                    sWriter.WriteLine("You are already in combat");
-                                }
+                                //}
+                                //else
+                                //{
+                                    //sWriter.WriteLine("You are already in combat");
+                                //}
                                 break;
                             case "drink":
                                 sWriter.WriteLine("You drank a potion");
@@ -158,7 +158,7 @@ namespace NetworkProjectServer
                 }
                 catch (Exception e)
                 {
-
+                    Console.WriteLine(e);
 
 
                     foreach (Player item in playerQueue)
