@@ -86,7 +86,7 @@ namespace NetworkProjectServer
             StreamReader sReader = new StreamReader(ns, Encoding.ASCII);
             StreamWriter sWriter = new StreamWriter(ns, Encoding.ASCII);
 
-            
+
 
             String sData = null;
 
@@ -109,9 +109,10 @@ namespace NetworkProjectServer
                         Console.WriteLine("Start of game");
                         Console.WriteLine("There are " + playerQueue.Count.ToString() + " in the queue");
                         playerReady.Add(p);
+                        allPlayers.Remove(p);
                         Console.WriteLine("There are: " + playerReady.Count.ToString() + " players in the game");
-                       
-                        
+
+
 
                         sData = sReader.ReadLine();
                         if (playerReady[0].health <= 0 && sData != null)
@@ -138,11 +139,11 @@ namespace NetworkProjectServer
                                     sWriter.WriteLine("Enemy health " + enemies[0].health.ToString());
                                     if (enemies[0].health <= 0 && enemies[0] != null)
                                     {
-                                        sWriter.WriteLine("The " + enemies[0].name+ " died");
+                                        sWriter.WriteLine("The " + enemies[0].name + " died");
                                         enemies.Clear();
                                     }
                                 }
-                                    
+
                                 else if (enemies.Count == 0)
                                 {
                                     sWriter.WriteLine("There is no enemy to attack, use Move to find an enemy");
@@ -152,7 +153,10 @@ namespace NetworkProjectServer
                                 if (enemies.Count == 0)
                                 {
                                     sWriter.WriteLine("you meet " + cmd.MeetEnemy());
-                                    writeOtherPlayer(client);
+                                    for (int i = 0; i < allPlayers.Count; i++)
+                                    {
+                                        WriteToPlayer(allPlayers[i], client, "Hi player who is not in the game");
+                                    }
                                 }
                                 else
                                 {
@@ -175,6 +179,7 @@ namespace NetworkProjectServer
                     PlayerReady.Clear();
                     Console.WriteLine("There are: " + playerReady.Count.ToString() + " players in the game");
                     Console.WriteLine("End of game");
+                    allPlayers.Add(p);
 
                 }
                 catch (Exception e)
@@ -234,7 +239,7 @@ namespace NetworkProjectServer
             playerReady.Clear();
             objsToRemove.Clear();
         }
-        public static void writeOtherPlayer( TcpClient client)
+        public static void writeOtherPlayer(TcpClient client)
         {
             for (int i = 0; i < allPlayers.Count; i++)
             {
@@ -242,10 +247,25 @@ namespace NetworkProjectServer
                 {
                     //byte derp =Convert.ToByte( response);
                     //byte[] responseData = responseData = Encoding.ASCII.GetBytes(data, 0, bytes); 
-                   // client.Client.Send(Encoding.ASCII.GetBytes("Hello to you, remote host."+client.Client.RemoteEndPoint.ToString()));
-                    client.Client.SendTo(Encoding.ASCII.GetBytes("Hello to you, remote host." + client.Client.RemoteEndPoint.ToString()),allPlayers[i].PlayerEP);
+                    // client.Client.Send(Encoding.ASCII.GetBytes("Hello to you, remote host."+client.Client.RemoteEndPoint.ToString()));
+                    client.Client.SendTo(Encoding.ASCII.GetBytes("Hello to you, remote host." + client.Client.RemoteEndPoint.ToString()), allPlayers[i].PlayerEP);
                 }
 
+            }
+        }
+
+
+        /// <summary>
+        /// En test som ikke virkede, hvor man skulle kunne skrive til de specifikke spillere
+        /// </summary>
+        /// <param name="p">       de spillere som ikke er i låsen</param>
+        /// <param name="client">  den instandsierede TcPClient</param>
+        /// <param name="message"> den string besked som man vil sende til de andre spillere</param>
+        public static void WriteToPlayer(Player p, TcpClient client, string message)
+        {
+            for (int i = 0; i < allPlayers.Count; i++)
+            {
+                client.Client.SendTo(Encoding.ASCII.GetBytes(message + client.Client.RemoteEndPoint.ToString()), p.PlayerEP);
             }
         }
     }
