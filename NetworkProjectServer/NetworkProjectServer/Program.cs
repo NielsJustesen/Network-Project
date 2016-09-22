@@ -15,6 +15,7 @@ namespace NetworkProjectServer
         private static Command cmd = new Command();
         private static Queue<Player> playerQueue = new Queue<Player>();
         private static List<Player> playerReady = new List<Player>();
+        private static List<Player> allPlayers = new List<Player>();
         private static List<Enemy> enemies = new List<Enemy>();
         private static List<Player> objsToRemove = new List<Player>();
         private static int _port = 5557;
@@ -93,7 +94,7 @@ namespace NetworkProjectServer
 
             Player p = new Player(endPoint);
             playerQueue.Enqueue(p);
-
+            allPlayers.Add(p);
 
             IPEndPoint localendPoint = (IPEndPoint)client.Client.LocalEndPoint;
 
@@ -112,7 +113,8 @@ namespace NetworkProjectServer
                         Console.WriteLine("There are: " + playerReady.Count.ToString() + " players in the game");
                         sWriter.WriteLine("It is your turn!");
                         sWriter.Write("Write your command>");
-
+                       
+                        
                         sData = sReader.ReadLine();
                         string playerCmd = sData;
                         switch (playerCmd.ToLower())
