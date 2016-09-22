@@ -111,6 +111,8 @@ namespace NetworkProjectServer
                         playerReady.Add(p);
                         Console.WriteLine("There are: " + playerReady.Count.ToString() + " players in the game");
                         sWriter.WriteLine("It is your turn!");
+                        sWriter.Write("Write your command>");
+
                         sData = sReader.ReadLine();
                         string playerCmd = sData;
                         switch (playerCmd.ToLower())
