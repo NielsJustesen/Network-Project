@@ -110,10 +110,13 @@ namespace NetworkProjectServer
                         Console.WriteLine("There are " + playerQueue.Count.ToString() + " in the queue");
                         playerReady.Add(p);
                         Console.WriteLine("There are: " + playerReady.Count.ToString() + " players in the game");
-                        sWriter.WriteLine("It is your turn!");
-                        sWriter.Write("Write your command>");
 
                         sData = sReader.ReadLine();
+                        if (playerReady[0].health <= 0 && sData != null)
+                        {
+                            sWriter.WriteLine("You are dead");
+                            KickDeadPlayer(p);
+                        }
                         string playerCmd = sData;
                         switch (playerCmd.ToLower())
                         {
@@ -139,7 +142,6 @@ namespace NetworkProjectServer
                                     /// LoopClients();
                                     //////////////////////
                                     sWriter.WriteLine("Your highscore will be saved.");
-                                    KickDeadPlayer(p);
                                 }
                                 else if (enemies.Count == 0)
                                 {
@@ -166,7 +168,6 @@ namespace NetworkProjectServer
                                 sWriter.WriteLine("Invalid command");
                                 break;
                         }
-                        sWriter.WriteLine("It is not your turn, unless you are alone.");
                     }
                     playerQueue.Enqueue(p);
                     Console.WriteLine("There are " + playerQueue.Count.ToString() + " in the queue");
