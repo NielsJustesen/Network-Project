@@ -114,7 +114,14 @@ namespace NetworkProjectServer
                         sData = sReader.ReadLine();
                         if (playerReady[0].health <= 0 && sData != null)
                         {
-                            sWriter.WriteLine("You are dead");
+                            sWriter.WriteLine("You died, reconnect to start over.");
+
+                            /////////////////////
+                            ////husk at tænke over at looope clienter så de ikke behøver at genstarte   exe 
+                            /// LoopClients();
+                            //////////////////////
+
+                            sWriter.WriteLine("Your highscore will be saved.");
                             KickDeadPlayer(p);
                         }
                         string playerCmd = sData;
@@ -133,16 +140,7 @@ namespace NetworkProjectServer
                                         enemies.Clear();
                                     }
                                 }
-                                else if (playerReady[0].health <= 0)
-                                {
-                                    sWriter.WriteLine("You died, reconnect to start over.");
-
-                                    /////////////////////
-                                    ////husk at tænke over at looope clineter så de ikke behøver at genstarte   exe 
-                                    /// LoopClients();
-                                    //////////////////////
-                                    sWriter.WriteLine("Your highscore will be saved.");
-                                }
+                                    
                                 else if (enemies.Count == 0)
                                 {
                                     sWriter.WriteLine("There is no enemy to attack, use Move to find an enemy");
@@ -165,7 +163,7 @@ namespace NetworkProjectServer
                                 sWriter.WriteLine("You have " + playerReady[0].potions.ToString() + " potions left");
                                 break;
                             default:
-                                sWriter.WriteLine("Invalid command");
+                                sWriter.WriteLine("Your command is invalid");
                                 break;
                         }
                     }
@@ -180,8 +178,18 @@ namespace NetworkProjectServer
                 {
                     Console.WriteLine(e);
 
-                    KickDeadPlayer(p);
-                    
+                    foreach (Player item in playerReady)
+                    {
+                        string removePlayer = p.PlayerEP.Port.ToString();
+
+                        if (item.PlayerEP.Port.ToString() == removePlayer)
+                        {
+                            objsToRemove.Add(item);
+                        }
+                    }
+                    playerReady.Clear();
+                    objsToRemove.Clear();
+
                     Console.WriteLine("Client on port " + p.PlayerEP.Port.ToString() + " left the game,\nthere are: " + playerQueue.Count.ToString() + " players");
                     Console.WriteLine(e);
                     sWriter.WriteLine("Something ruined the server");
@@ -211,7 +219,7 @@ namespace NetworkProjectServer
         }
         public static void KickDeadPlayer(Player p)
         {
-            foreach (Player item in playerQueue)
+            foreach (Player item in playerReady)
             {
                 string removePlayer = p.PlayerEP.Port.ToString();
 
@@ -220,10 +228,7 @@ namespace NetworkProjectServer
                     objsToRemove.Add(item);
                 }
             }
-            foreach (Player pl in objsToRemove)
-            {
-                playerQueue.Dequeue();
-            }
+            playerReady.Clear();
             objsToRemove.Clear();
         }
     }
