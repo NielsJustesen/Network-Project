@@ -105,14 +105,11 @@ namespace NetworkProjectServer
                 {
                     lock (laas)
                     {
-                        //sWriter.WriteLine("Det er din tur");
                         p = playerQueue.Dequeue();
                         Console.WriteLine("Start of game");
                         Console.WriteLine("There are " + playerQueue.Count.ToString() + " in the queue");
                         playerReady.Add(p);
                         Console.WriteLine("There are: " + playerReady.Count.ToString() + " players in the game");
-                        sWriter.WriteLine("It is your turn!");
-                        sWriter.Write("Write your command>");
                        
                         
 
@@ -241,7 +238,7 @@ namespace NetworkProjectServer
         {
             for (int i = 0; i < allPlayers.Count; i++)
             {
-                if (allPlayers[i].PlayerEP != PlayerReady[0].PlayerEP)
+                if (allPlayers[i].PlayerEP == playerReady[0].PlayerEP)
                 {
                     //byte derp =Convert.ToByte( response);
                     //byte[] responseData = responseData = Encoding.ASCII.GetBytes(data, 0, bytes); 
