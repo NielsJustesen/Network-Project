@@ -105,6 +105,7 @@ namespace NetworkProjectServer
                 {
                     lock (laas)
                     {
+                        sWriter.WriteLine("It is your turn. Write your command");
                         p = playerQueue.Dequeue();
                         Console.WriteLine("Start of game");
                         Console.WriteLine("There are " + playerQueue.Count.ToString() + " in the queue");
@@ -153,10 +154,6 @@ namespace NetworkProjectServer
                                 if (enemies.Count == 0)
                                 {
                                     sWriter.WriteLine("you meet " + cmd.MeetEnemy());
-                                    for (int i = 0; i < allPlayers.Count; i++)
-                                    {
-                                        WriteToPlayer(allPlayers[i], client, "Hi player who is not in the game");
-                                    }
                                 }
                                 else
                                 {
@@ -265,7 +262,7 @@ namespace NetworkProjectServer
         {
             for (int i = 0; i < allPlayers.Count; i++)
             {
-                client.Client.SendTo(Encoding.ASCII.GetBytes(message + client.Client.RemoteEndPoint.ToString()), p.PlayerEP);
+                client.Client.SendTo(Encoding.ASCII.GetBytes(message + client.Client.RemoteEndPoint.ToString()), allPlayers[i].PlayerEP);
             }
         }
     }
