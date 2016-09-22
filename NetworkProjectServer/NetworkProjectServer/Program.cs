@@ -236,5 +236,19 @@ namespace NetworkProjectServer
             playerReady.Clear();
             objsToRemove.Clear();
         }
+        public void writeOtherPlayer(string response, TcpClient client)
+        {
+            for (int i = 0; i < allPlayers.Count; i++)
+            {
+                if (allPlayers[i].PlayerEP != PlayerReady[i].PlayerEP)
+                {
+                    //byte derp =Convert.ToByte( response);
+                    //byte[] responseData = responseData = Encoding.ASCII.GetBytes(data, 0, bytes); 
+                    client.Client.Send(Encoding.ASCII.GetBytes("Hello to you, remote host."));
+
+                }
+
+            }
+        }
     }
 }
