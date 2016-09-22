@@ -155,6 +155,7 @@ namespace NetworkProjectServer
                                 if (enemies.Count == 0)
                                 {
                                     sWriter.WriteLine("you meet " + cmd.MeetEnemy());
+                                    writeOtherPlayer(client);
                                 }
                                 else
                                 {
@@ -236,7 +237,7 @@ namespace NetworkProjectServer
             playerReady.Clear();
             objsToRemove.Clear();
         }
-        public void writeOtherPlayer(string response, TcpClient client)
+        public static void writeOtherPlayer( TcpClient client)
         {
             for (int i = 0; i < allPlayers.Count; i++)
             {
@@ -244,7 +245,7 @@ namespace NetworkProjectServer
                 {
                     //byte derp =Convert.ToByte( response);
                     //byte[] responseData = responseData = Encoding.ASCII.GetBytes(data, 0, bytes); 
-                    client.Client.Send(Encoding.ASCII.GetBytes("Hello to you, remote host."));
+                    client.Client.Send(Encoding.ASCII.GetBytes("Hello to you, remote host."+client.Client.RemoteEndPoint.ToString()));
 
                 }
 
