@@ -53,7 +53,6 @@ namespace NetworkProjectServer
             Console.Title = "Server";
             Console.WriteLine("Waiting for players ...");
             Tcpserver(_port);
-
         }
 
         static void Tcpserver(int port)
@@ -81,29 +80,28 @@ namespace NetworkProjectServer
         {
             TcpClient client = (TcpClient)obj;
             NetworkStream ns = client.GetStream();
+
+
             StreamReader sReader = new StreamReader(ns, Encoding.ASCII);
             StreamWriter sWriter = new StreamWriter(ns, Encoding.ASCII);
+
+            
 
             String sData = null;
 
             IPEndPoint endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
+
             Player p = new Player(endPoint);
             playerQueue.Enqueue(p);
 
 
-
             IPEndPoint localendPoint = (IPEndPoint)client.Client.LocalEndPoint;
-            Random rnd = new Random();
-
-            int hemmeligtTal = rnd.Next(1, 99);
 
 
             while (client.Connected)
             {
-
                 try
                 {
-
                     lock (laas)
                     {
                         //sWriter.WriteLine("Det er din tur");
@@ -112,7 +110,7 @@ namespace NetworkProjectServer
                         Console.WriteLine("There are " + playerQueue.Count.ToString() + " in the queue");
                         playerReady.Add(p);
                         Console.WriteLine("There are: " + playerReady.Count.ToString() + " players in the game");
-
+                        sWriter.WriteLine("It is your turn!");
                         sData = sReader.ReadLine();
                         string playerCmd = sData;
                         switch (playerCmd.ToLower())
@@ -161,6 +159,7 @@ namespace NetworkProjectServer
                                 sWriter.WriteLine("Invalid command");
                                 break;
                         }
+                        sWriter.WriteLine("It is not your turn, unless you are alone.");
                     }
                     playerQueue.Enqueue(p);
                     Console.WriteLine("There are " + playerQueue.Count.ToString() + " in the queue");
