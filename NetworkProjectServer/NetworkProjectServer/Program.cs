@@ -245,8 +245,8 @@ namespace NetworkProjectServer
                 {
                     //byte derp =Convert.ToByte( response);
                     //byte[] responseData = responseData = Encoding.ASCII.GetBytes(data, 0, bytes); 
-                    client.Client.Send(Encoding.ASCII.GetBytes("Hello to you, remote host."+client.Client.RemoteEndPoint.ToString()));
-
+                   // client.Client.Send(Encoding.ASCII.GetBytes("Hello to you, remote host."+client.Client.RemoteEndPoint.ToString()));
+                    client.Client.SendTo(Encoding.ASCII.GetBytes("Hello to you, remote host." + client.Client.RemoteEndPoint.ToString()),allPlayers[i].PlayerEP);
                 }
 
             }
