@@ -241,7 +241,7 @@ namespace NetworkProjectServer
         {
             for (int i = 0; i < allPlayers.Count; i++)
             {
-                if (allPlayers[i].PlayerEP != PlayerReady[i].PlayerEP)
+                if (allPlayers[i].PlayerEP != PlayerReady[0].PlayerEP)
                 {
                     //byte derp =Convert.ToByte( response);
                     //byte[] responseData = responseData = Encoding.ASCII.GetBytes(data, 0, bytes); 
