@@ -95,7 +95,7 @@ namespace NetworkProjectServer
             Player p = new Player(endPoint);
             //  reads input about username 
             string brugernavn = sReader.ReadLine();
-          Person person=handler.GetUser(0, brugernavn);
+         p.person=handler.GetUser(0, brugernavn);
 
             //end
             playerQueue.Enqueue(p);
@@ -160,6 +160,7 @@ namespace NetworkProjectServer
                                             default:
                                                 break;
                                         }
+                                        handler.UpdateUser(p.person);
                                         enemies.Clear();
                                     }
                                 }
