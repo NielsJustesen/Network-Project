@@ -85,7 +85,7 @@ namespace NetworkProjectServer
 
             StreamReader sReader = new StreamReader(ns, Encoding.ASCII);
             StreamWriter sWriter = new StreamWriter(ns, Encoding.ASCII);
-
+            RestHandler handler = new RestHandler();
 
 
             String sData = null;
@@ -93,6 +93,11 @@ namespace NetworkProjectServer
             IPEndPoint endPoint = (IPEndPoint)client.Client.RemoteEndPoint;
 
             Player p = new Player(endPoint);
+            //  reads input about username 
+            string brugernavn = sReader.ReadLine();
+            handler.GetUser(0, brugernavn);
+
+            //end
             playerQueue.Enqueue(p);
             allPlayers.Add(p);
 
