@@ -95,7 +95,7 @@ namespace NetworkProjectServer
             Player p = new Player(endPoint);
             //  reads input about username 
             string brugernavn = sReader.ReadLine();
-            handler.GetUser(0, brugernavn);
+          Person person=handler.GetUser(0, brugernavn);
 
             //end
             playerQueue.Enqueue(p);
