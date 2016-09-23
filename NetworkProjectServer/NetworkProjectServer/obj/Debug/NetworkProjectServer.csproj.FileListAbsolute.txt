@@ -10,3 +10,9 @@ D:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\Netwo
 E:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\bin\Debug\NetworkProjectServer.exe.config
 E:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\obj\Debug\NetworkProjectServer.exe
 E:\Dania Games\Dania - Projekter\NetworkProjectServer\NetworkProjectServer\NetworkProjectServer\obj\Debug\NetworkProjectServer.pdb
+C:\Users\Frederik\Source\Repos\Network-Project\NetworkProjectServer\NetworkProjectServer\bin\Debug\NetworkProjectServer.exe.config
+C:\Users\Frederik\Source\Repos\Network-Project\NetworkProjectServer\NetworkProjectServer\bin\Debug\NetworkProjectServer.exe
+C:\Users\Frederik\Source\Repos\Network-Project\NetworkProjectServer\NetworkProjectServer\bin\Debug\NetworkProjectServer.pdb
+C:\Users\Frederik\Source\Repos\Network-Project\NetworkProjectServer\NetworkProjectServer\obj\Debug\NetworkProjectServer.csprojResolveAssemblyReference.cache
+C:\Users\Frederik\Source\Repos\Network-Project\NetworkProjectServer\NetworkProjectServer\obj\Debug\NetworkProjectServer.exe
+C:\Users\Frederik\Source\Repos\Network-Project\NetworkProjectServer\NetworkProjectServer\obj\Debug\NetworkProjectServer.pdb
