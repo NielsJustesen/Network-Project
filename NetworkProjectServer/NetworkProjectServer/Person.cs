@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace NetworkProjectServer
 {
     [DataContract]
-    class Person
+    public class Person
     {
         [DataMember]
         public long ID { get; set; }
