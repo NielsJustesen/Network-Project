@@ -146,6 +146,20 @@ namespace NetworkProjectServer
                                     if (enemies[0].health <= 0 && enemies[0] != null)
                                     {
                                         sWriter.WriteLine("The " + enemies[0].name + " died");
+                                        switch (enemies[0].name.ToLower())
+                                        {
+                                            case "a goblin":
+                                                p.person.goblin++;
+                                                break;
+                                            case "an orc":
+                                                p.person.orc++;
+                                                break;
+                                            case "a troll":
+                                                p.person.troll++;
+                                                break;
+                                            default:
+                                                break;
+                                        }
                                         enemies.Clear();
                                     }
                                 }
